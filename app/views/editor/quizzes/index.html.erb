@@ -1,0 +1,11 @@
+<h1>All your quizzes:</h1><br>
+<% @quizzes.each do |quiz| %>
+  <h3>
+    <%= link_to "Edit", "quizzes/#{quiz.uuid}", :class => 'btn btn-info' %>
+    <%= quiz.title %>
+  </h3>
+  <p><%= quiz.description %><br>
+    Questions count: <%= quiz.questions.count %></p>
+  <br>
+<% end %>
+<%= link_to "Add", 'quizzes/new', :class => 'btn btn-success' %>

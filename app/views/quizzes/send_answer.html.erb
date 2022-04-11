@@ -1,0 +1,18 @@
+<h2><%= @outp[:result].upcase %></h2><br>
+<p>
+  Right answer: 
+  <% if @q.question_type == 'Multiple answer' %>
+    <% @outp[:right_answer].select{|id, val| val == "1"}.keys.each do |answer| %>
+      <br>• <%= @q.answers.find_by(:id => answer).text %>
+    <% end %>
+  <% else %>
+    <br>• <%= @outp[:right_answer] %>
+  <% end %>
+  <br><br>
+  Earned <%= @outp[:points] %> pt.
+</p>
+<% if @outp[:results_url] %>
+  <%= link_to "View results", 'results', :class => 'btn btn-success' %>
+<% elsif @outp[:next_question] %>
+  <%= link_to "Next question", @outp[:next_question], :class => 'btn btn-success' %>
+<% end %>

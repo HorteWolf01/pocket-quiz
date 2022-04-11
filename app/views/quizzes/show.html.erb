@@ -1,0 +1,10 @@
+<h1><%= @quiz.title %></h1></li>
+<% @quiz.attributes.except("id", "title", "author_id", "uuid", "created_at", "updated_at").merge(:author => User.find_by_id(@quiz.author_id).name).each do |attribute, value| %>
+  <h4><%= attribute %></h4>
+  <p><%= value %></p>
+<% end %>
+<p>Questions count: <%= @quiz.questions.count %></p>
+<p>
+  <%= link_to "Connect", "/#{@quiz.uuid}", :class => 'btn btn-primary' %>
+  <%= link_to "Back", "/quizzes", :class => 'btn btn-warning' %>
+</p>

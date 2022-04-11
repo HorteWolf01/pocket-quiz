@@ -1,0 +1,5 @@
+<h1>All our quizzes</h1>
+<% @quizzes.each do |quiz| %>
+  <h3><%= link_to "#{quiz.title}", "/quizzes/#{quiz.id}", :class => 'nav-link' %></h3>
+  <p><%= quiz.description %></p><br>
+<% end %>

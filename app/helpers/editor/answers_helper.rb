@@ -1,0 +1,2 @@
+module Editor::AnswersHelper
+end

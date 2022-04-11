@@ -1,0 +1,14 @@
+<h2>Adding new quiz</h2>
+<%= form_for :quiz, url: quizzes_path do |f| %>
+  <p>
+    Название<br>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    Описание<br>
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>

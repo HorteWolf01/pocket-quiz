@@ -1,0 +1,30 @@
+<%= form_for :question, :method => :put do |f| %>
+  <h1>
+    <%= f.text_field :text, :class => 'form-control-lg' %>
+    <%= f.submit "Save", :class => 'btn-lg btn-success' %>
+  </h1><br>
+<% end %>
+
+<h3>Answers:</h3>
+<% @answers.each do |answer| %>
+  <p>
+  <% @answer = answer %>
+  <%= form_for :answer, :url => "/editor/answers/#{answer.id}", :method => :put do |f| %>
+    <%= f.check_box :right %>
+    <%= f.text_field :text, :class => 'form-control-sm' %>
+    <%= f.submit "Save", :class => 'btn-sm btn-success' %>
+    <%= f.submit "Del", :class => 'btn-sm btn-danger' %>
+  <% end %>
+  </p>
+<% end %>
+
+<%= form_for :new, :url => "/editor/q/#{@question.id}/answers" do |f| %>
+  <p>
+    <%= f.check_box :right, :class => '' %>
+    <%= f.text_field :text, :class => 'form-control-sm' %>
+    <%= f.submit 'Add answer', :class => 'btn-sm btn-success' %>
+  </p>
+<% end %><br>
+<%= link_to "Cancel", "/editor/quizzes/#{@quiz.uuid}", :class => 'btn btn-warning' %>
+
+<br><br><br><br><br>

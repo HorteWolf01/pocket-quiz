@@ -1,0 +1,39 @@
+<h1>
+  <%= form_for :delete, :method => :delete do |f| %>
+    <%= link_to "Edit", "#{@quiz.uuid}/edit", :class => 'btn btn-primary' %>
+    <%= f.submit "Delete", :class => 'btn btn-danger' %>
+  <% end %>
+  <br>
+  <%= @quiz.title %>
+</h1><br>
+<p>
+  Questions count: 
+  <% if @questions  %>
+    <%= @questions.count %>
+  <% else %>
+    <%= 0 %>
+  <% end %>
+</p>
+<h4><%= @quiz.description %></h4><br>
+<% if @questions %>
+  <h2>Questions:</h2>
+  <% @questions.each_with_index do |question, index| %>
+    <br>
+    <h3>
+      <%= form_for :delete, :url => "#{@quiz.uuid}/q/#{index}", :method => :delete do |f| %>
+        <%= link_to "Edit", "#{@quiz.uuid}/q/#{index}", :class => 'btn btn-primary' %>
+        <%= f.submit "Delete", :class => 'btn btn-danger' %>
+        <%= question.text %>
+      <% end %>
+    </h3>
+    <p>
+      type: <%= question.question_type %><br>
+      points: <%= question.points %>
+    </p>
+  <% end %>
+<% end %>
+<br>
+<%= link_to "Add question", "#{@quiz.uuid}/q/new", :class => 'btn btn-success' %>
+<br><br>
+<%= link_to "Go back to your quizzes", "/editor/quizzes", :class => 'btn btn-warning' %>
+<br><br><br><br><br>

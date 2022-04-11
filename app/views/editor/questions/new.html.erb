@@ -1,0 +1,13 @@
+<h1>Adding new question</h1>
+<%= form_for :question, :url => "/editor/quizzes/#{@quiz.uuid}/q" do |f| %>
+  <%= f.label :text, 'Question', :class => 'form-label' %>
+  <%= f.text_field :text, :class => 'form-control' %>
+  <%= f.label :points, 'Points', :class => 'form-label' %>
+  <%= f.number_field :points, :in => 1..10, :step => 1, :class => 'form-control' %>
+  <%= f.label :question_type, 'Type', :class => 'form-label' %><br>
+  <%= f.select :question_type, ['Multiple choice', 'Numeric', 'Fill in the blank', 'True', 'False', 'Multiple answer'], {}, :class => 'form-select' %>
+  <br><br>
+  <%= link_to "Cancel", "/editor/quizzes/#{@quiz.uuid}", :class => 'btn btn-warning' %>
+  <%= f.submit :class => 'btn btn-success' %>
+<% end %>
+

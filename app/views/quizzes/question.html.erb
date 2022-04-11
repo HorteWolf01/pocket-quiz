@@ -1,0 +1,61 @@
+<p>
+  Question: <%= (params[:q].to_i + 1) %>/<%= @quiz.questions.count %><br>
+  Points: <%= @question.points%><br>
+</p>
+<h2><%= @question.text %></h2>
+
+<% case @question.question_type %>
+<% when "True", "False" %>
+  <p>True/False</p>
+  <%= form_for :answer do |f| %>
+    <div class="form-check">
+      <%= f.radio_button :ans, "1", :class => 'form-check-input' %>
+      <%= f.label :ans, "True", :class => 'form-check-label' %>
+    </div>
+    <div class="form-check">
+      <%= f.radio_button :ans, "0", :class => 'form-check-input' %>
+      <%= f.label :ans, "False", :class => 'form-checl-label' %>
+    </div><br>
+    <%= f.submit :class => 'btn btn-success' %>
+  <% end %>
+
+<% when "Multiple choice" %>
+  <br>
+  <%= form_for :answer do |f| %>
+    <% @answers.each do |answer| %>
+      <div class="form-check">
+        <%= f.radio_button :ans, answer.id, :class => 'form-check-input' %>
+        <%= f.label :ans, answer.text, :class => 'form-check-label' %>
+      </div>
+    <% end %>
+    <br>
+    <%= f.submit :class => 'btn btn-success' %>
+  <% end %>
+
+<% when "Fill in the blank" %>
+  <p>Fill in the blank</p>
+  <%= form_for :answer do |f| %>
+    <p><%= f.text_field :ans, :class => 'form-control' %></p>
+    <p><%= f.submit :class => 'btn btn-success' %></p>
+  <% end %>
+
+<% when "Multiple answer" %>
+  <p>Multiple answer</p>
+  <%= form_for :answer do |f| %>
+    <p>
+      <% @answers.each do |answer| %>
+        <%= f.check_box :"#{answer.id}", :class => 'form-check-sm' %>
+        <%= f.label :"#{answer.id}", "#{answer.text}", :class => 'form-label' %>
+        <br>
+      <% end %>
+    </p>
+    <p><%= f.submit :class => 'btn btn-success' %></p>
+  <% end %>
+
+<% when "Numeric" %>
+  <p>Numeric</p>
+  <%= form_for :answer do |f| %>
+    <p><%= f.number_field :ans, :class => 'form-control' %></p>
+    <p><%= f.submit :class => 'btn btn-success' %></p>
+  <% end %>
+<% end %>
