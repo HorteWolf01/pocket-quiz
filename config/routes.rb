@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     delete 'answers/:id', to: 'answers#destroy'
   end
 
+  get 'email_confirmation', to: 'users#email_confirmation'
+  post 'email_confirmation', to: 'users#check_email'
+  get 'send_token', to: 'users#send_email'
   get 'signup', to: 'users#new'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

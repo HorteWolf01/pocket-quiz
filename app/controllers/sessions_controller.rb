@@ -7,12 +7,14 @@ class SessionsController < ApplicationController
   
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-  if user && user.authenticate(params[:session][:password])
+  if user && user.authenticate(params[:session][:password]) 
+    unless user.email_confirmed
+      session[:confirmation_user_id] = user.id
+      return redirect_to '/email_confirmation'
+    end
     session[:user_id] = user.id
     flash[:notice] = "Logged in successfully."
     authenticate
-    #p 'MAILING'
-    #email
     redirect_to '/quizzes'
   else
     flash.now[:alert] = "There was something wrong with your login details."

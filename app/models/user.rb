@@ -7,6 +7,6 @@ class User < ApplicationRecord
   validates :email, :password_digest, :name, presence: true
 
   private
-
+  
 end
 

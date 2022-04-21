@@ -1,0 +1,11 @@
+<h2> Please, confirm your e-mail address </h2><br>
+
+<%= form_for :confirmation do |f| %>
+  <div class="form-control">
+    <%= f.label :token, "Enter token from e-mail message:", :class => 'form-control-label' %>
+    <%= f.text_field :token, :class => 'form-control' %>
+  </div><br>
+
+  <%= f.submit "Save", :class => 'btn btn-success' %>
+  <%= link_to "Resend e-mail", '/send_token', :class => 'btn mx-3 btn-primary' %>
+<% end %>
