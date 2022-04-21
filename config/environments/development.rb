@@ -45,10 +45,10 @@ Rails.application.configure do
   host = 'localhost'
   config.action_mailer.default_url_options = { host: host }
   config.action_mailer.smtp_settings = {
-    address: 'smtp.mail.ru',
-    port: 587,
-    user_name: 'romanovskii_2002',
-    password: 'yKEdv9cDcXdbgKqWwjkY',
+    address: '<address>',
+    port: '<port>',
+    user_name: '<username>',
+    password: '<password>',
     authentication: 'plain',
     enable_starttls_auto: true
   }
