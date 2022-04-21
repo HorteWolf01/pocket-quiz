@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "bot@pocket-quiz-2.io"
+  default from: "\"Pocket-Quiz-2 Mail Bot\" <romanovskii_2002@mail.ru>"
   layout "mailer"
 end
