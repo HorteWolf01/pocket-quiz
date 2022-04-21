@@ -1,24 +1,28 @@
-# README
+**Requirements:**
+* Ruby 3.1.1
+* Rails 7.0.2.3
+* PostgreSQL 13.4
+* wkhtmltopdf 0.12.6
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**Installation:**
 
-Things you may want to cover:
+`$ git clone`
 
-* Ruby version
+`$ bundle i`
 
-* System dependencies
+`$ bundle e rake db:create`
 
-* Configuration
+`$ bundle e rake db:migrate`
 
-* Database creation
+`$ bundle e rake db:seed`
 
-* Database initialization
+`$ bundle e rails s`
 
-* How to run the test suite
+You can login as admin with ` admin@example.com ` : ` admin `
 
-* Services (job queues, cache servers, search engines, etc.)
+**Installation wkhtmltopdf gem on Fedora 35:**
 
-* Deployment instructions
 
-* ...
+`$ cd /vendor/bundle/ruby/3.1.0/gems/wkhtmltopdf-binary-0.12.6.5/bin/`
+
+`$ ln wkhtmltopdf_centos_8_amd64.gz wkhtmltopdf_fedora_35_amd64.gz`
