@@ -1,0 +1,9 @@
+<h1>Quiz import</h1>
+<%= form_for :quiz, :url => "/editor/quizzes/import", :method => :post do |f| %>
+  <%= f.label :file, 'Choose JSON file', :class => 'form-label' %>
+  <%= f.file_field :file, :class => 'form-control' %>
+  <br>
+  <%= link_to "Cancel", "/editor/quizzes", :class => 'btn btn-warning' %>
+  <%= f.submit "Import", :class => 'btn btn-success' %>
+<% end %>
+

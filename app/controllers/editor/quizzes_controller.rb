@@ -58,4 +58,47 @@ class Editor::QuizzesController < ApplicationController
   rescue => e
     flash[:notice] = e.message
   end
+
+  def export
+    quiz = Quiz.find_by(:uuid => params[:uuid])
+    questions = quiz.questions.map do |question|
+      answers = question.answers.map do |answer|
+        answer.attributes.except("id", "created_at", "updated_at", "question_id")
+      end
+      question.attributes.
+        except("id", "time", "created_at", "updated_at", "quiz_id").
+        merge(:answers => answers)
+    end
+    render :json => quiz.attributes.
+      except("id", "uuid", "created_at", "updated_at", "author_id").
+      merge(:questions => questions)
+  end
+
+  def import_page
+
+  end
+
+  def import
+    data = JSON.parse(params[:quiz][:file].read)
+    quiz = Quiz.new(
+      :description => data["description"],
+      :title => data["title"],
+      :author_id => $user.id
+    )
+    data["questions"].each do |question|
+      q = quiz.questions.new(
+        :points => question["points"],
+        :text => question["text"],
+        :question_type => question["question_type"]
+      )
+      question["answers"].each do |answer|
+        q.answers.new(
+          :text => answer["text"],
+          :right => answer["right"]
+        )
+      end
+    end
+    quiz.save!
+    redirect_to "/editor/quizzes/#{quiz.uuid}"
+  end
 end

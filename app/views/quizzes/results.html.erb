@@ -1,5 +1,13 @@
 <h1>Congratulations, you scored <%= @participant.score %> out of <%= @max_score %> points!</h1><br>
+<h2>Leaders</h2>
+<% @leaders.each do |pt| %>
+  <% user = User.find_by(:id => pt.user_id) %>
+  <p>
+    <%= user.name %> - <%= pt.score %>
+  </p>
+<% end %>
 <p>
   <%= link_to "Home", "/quizzes", :class => 'btn btn-primary' %>
   <%= link_to "Try again", "/#{@quiz.uuid}", :class => 'btn btn-warning' %>
+  <%= link_to "Get certificate", "/#{@quiz.uuid}/certificate", :class => 'btn btn-success' %>
 </p>
