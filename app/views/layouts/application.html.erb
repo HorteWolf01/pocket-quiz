@@ -19,6 +19,8 @@
         <% else %>
           <%= link_to "Log In", '/login', :class => 'mx-3 text-decoration-none text-white' %>
         <% end %>
+        <%= link_to "Users", "/users", :class => 'btn btn-secondary mx-1' if $user&.admin %>
+
         <%= link_to "Editor", "/editor/quizzes", :class => 'btn btn-secondary' %>
       </p>
     </header>

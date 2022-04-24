@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate#, :only => [:new, :create]
+  skip_before_action :authenticate,
+    :except => [:index, :show, :update, :destroy, :switch_admin]#:only => [:new, :create]
+  skip_before_action :verify_authenticity_token, :only => [:destroy, :switch_admin]
 
   def new
     @user = User.new
@@ -23,7 +25,8 @@ class UsersController < ApplicationController
   end
 
   def email_confirmation
-
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def check_email
@@ -34,6 +37,8 @@ class UsersController < ApplicationController
     end
     user.update!(:email_confirmed => true)
     redirect_to '/login'
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def send_email
@@ -43,5 +48,58 @@ class UsersController < ApplicationController
     p $user.token
     UserMailer.confirmation_email.deliver_now
     redirect_to '/email_confirmation'
+  rescue => e
+    flash[:notice] = e.message
+  end
+
+  def index
+    render :json => {:message => 'Only for admins'}, :status => :forbidden unless $user.admin
+    @users = User.all
+  rescue => e
+    flash[:notice] = e.message
+  end
+
+  def show
+    render :json => {:message => 'Only for admins'}, :status => :forbidden unless $user.admin
+    render :json => {:message => 'Not found'}, 
+      :status => :not_found unless @user = User.find_by(:id => params[:id])
+  rescue => e
+    flash[:notice] = e.message
+  end
+
+  def update
+    render :json => {:message => 'Only for admins'}, :status => :forbidden unless $user.admin
+    render :json => {:message => 'Not found'},
+      :status => :not_found unless user = User.find_by(:id => params[:id])
+    user.update!(
+      params[:user].permit(
+        :admin,
+        :name
+      )
+    )
+    redirect_to "/users"
+  rescue => e
+    flash[:notice] = e.message
+  end
+
+  def destroy
+    render :json => {:message => 'Only for admins'}, :status => :forbidden unless $user.admin
+    render :json => {:message => 'Not found'},
+      :status => :not_found unless user = User.find_by(:id => params[:id])
+    user.destroy!
+    redirect_to "/users"
+  rescue => e
+    flash[:notice] = e.message
+  end
+
+  def switch_admin
+    p 'test'
+    render :json => {:message => 'Only for admins'}, :status => :forbidden unless $user.admin
+    render :json => {:message => 'Not found'},
+      :status => :not_found unless @user = User.find_by(:id => params[:id])
+    @user.update!( :admin => !@user.admin )
+    redirect_to "/users"
+  rescue => e
+    flash[:notice] = e.message
   end
 end

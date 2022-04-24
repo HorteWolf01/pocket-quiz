@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
 
+  post 'users/:id/switch_admin', to: 'users#switch_admin'
   resources :users, except: [:new]
 
   get 'email', to: 'sessions#email'
