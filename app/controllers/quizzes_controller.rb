@@ -166,7 +166,14 @@ class QuizzesController < ApplicationController
     end
     @max_score = 0
     @quiz.questions.each {|e| @max_score += e.points}
+    @leaders = @quiz.participants.sort_by{|pt| 0 - pt.score}[0..9]
   rescue => e
     flash[:notice] = e.message
+  end
+
+  def certificate
+    quiz = Quiz.find_by(:uuid => params[:uuid])
+    participant = quiz.participants.find_by(:user_id => $user.id, :quiz_id => quiz.id)
+    render :json => participant.updated_at
   end
 end

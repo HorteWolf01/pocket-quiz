@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   resources :quizzes
 
   namespace :editor do
+    ##### export/import #####
+    get 'quizzes/:uuid/export', to: 'quizzes#export'
+    get 'quizzes/import', to: 'quizzes#import_page'
+    post 'quizzes/import', to: 'quizzes#import'
+
     ##### quizzes ######
     get 'quizzes', to: 'quizzes#index'
     get 'quizzes/new', to: 'quizzes#new'
@@ -37,6 +42,7 @@ Rails.application.routes.draw do
   get 'email', to: 'sessions#email'
 
   get ':uuid', to: 'quizzes#connect'
+  get ':uuid/certificate', to: 'quizzes#certificate'
   get ':uuid/results', to: 'quizzes#results'
   get ':uuid/:q', to: 'quizzes#question'
   post ':uuid/:q', to: 'quizzes#send_answer' 
