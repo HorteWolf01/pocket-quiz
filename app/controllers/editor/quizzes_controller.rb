@@ -69,9 +69,14 @@ class Editor::QuizzesController < ApplicationController
         except("id", "time", "created_at", "updated_at", "quiz_id").
         merge(:answers => answers)
     end
-    render :json => quiz.attributes.
+    file = File.new("quiz.json", "w+")
+    file.print(
+      quiz.attributes.
       except("id", "uuid", "created_at", "updated_at", "author_id").
-      merge(:questions => questions)
+      merge(:questions => questions).to_json    
+    )
+    file.close
+    send_file "quiz.json", :type => 'application/json'
   end
 
   def import_page

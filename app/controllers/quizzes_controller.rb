@@ -172,8 +172,19 @@ class QuizzesController < ApplicationController
   end
 
   def certificate
-    quiz = Quiz.find_by(:uuid => params[:uuid])
-    participant = quiz.participants.find_by(:user_id => $user.id, :quiz_id => quiz.id)
-    render :json => participant.updated_at
+    @quiz = Quiz.find_by(:uuid => params[:uuid])
+    @participant = @quiz.participants.find_by(:user_id => $user.id)
+    @time = @participant.updated_at.strftime("%d of %B, %Y")
+    @max_score = 0
+    @quiz.questions.each {|e| @max_score += e.points}
+
+     render pdf: "Certificate",
+                page_size: 'A5',
+                template: "quizzes/certificate",
+                layout: "pdf",
+                orientation: "Landscape",
+                lowquality: true,
+                zoom: 1,
+                dpi: 75
   end
 end
