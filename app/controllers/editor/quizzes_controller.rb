@@ -11,6 +11,8 @@ class Editor::QuizzesController < ApplicationController
 
   def new
   
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def create
@@ -77,13 +79,29 @@ class Editor::QuizzesController < ApplicationController
     )
     file.close
     send_file "quiz.json", :type => 'application/json'
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def import_page
 
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def import
+    unless params[:quiz]
+      flash[:notice] = "Invalid file"
+      return redirect_to '/editor/quizzes/import'
+    end
+    unless params[:quiz][:file]
+      flash[:notice] = "Invalid file"
+      return redirect_to '/editor/quizzes/import'
+    end
+    unless params[:quiz][:file].content_type == 'application/json'
+      flash[:notice] = "Invalid file"
+      return redirect_to '/editor/quizzes/import'
+    end
     data = JSON.parse(params[:quiz][:file].read)
     quiz = Quiz.new(
       :description => data["description"],
@@ -105,5 +123,8 @@ class Editor::QuizzesController < ApplicationController
     end
     quiz.save!
     redirect_to "/editor/quizzes/#{quiz.uuid}"
+  rescue => e
+    flash[:notice] = e.message
+    redirect_to "/editor/quizzes/import"
   end
 end

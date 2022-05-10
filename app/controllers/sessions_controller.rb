@@ -3,6 +3,8 @@ class SessionsController < ApplicationController
 
   def new
     return destroy if session[:user_id]
+  rescue => e
+    flash[:notice] = e.message
   end
   
   def create
@@ -20,16 +22,22 @@ class SessionsController < ApplicationController
     flash.now[:alert] = "There was something wrong with your login details."
     render 'new'
   end
+  rescue => e
+    flash[:notice] = e.message
 end
 
   def destroy
     session[:user_id] = nil
     flash[:notice] = "You have been logged out."
     redirect_to '/quizzes'
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def email
     $url = "#{request.host_with_port}/login"
     UserMailer.welcome_email.deliver_now
+  rescue => e
+    flash[:notice] = e.message
   end
 end

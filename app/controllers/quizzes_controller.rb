@@ -9,6 +9,8 @@ class QuizzesController < ApplicationController
 
   def new
 
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def show
@@ -186,5 +188,7 @@ class QuizzesController < ApplicationController
                 lowquality: true,
                 zoom: 1,
                 dpi: 75
+  rescue => e
+    flash[:notice] = e.message
   end
 end

@@ -2,6 +2,7 @@
   <%= form_for :delete, :method => :delete do |f| %>
     <%= link_to "Edit", "#{@quiz.uuid}/edit", :class => 'btn btn-primary' %>
     <%= f.submit "Delete", :class => 'btn btn-danger' %>
+    <%= link_to "Export to JSON", "#{@quiz.uuid}/export", :class => 'btn btn-primary' %>
   <% end %>
   <br>
   <%= @quiz.title %>

@@ -31,6 +31,8 @@ class Editor::QuestionsController < ApplicationController
 
   def update
 
+  rescue => e
+    flash[:notice] = e.message
   end
 
   def destroy
